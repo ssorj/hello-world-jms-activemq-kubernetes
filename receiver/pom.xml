@@ -20,11 +20,11 @@
 
   <parent>
     <groupId>net.example</groupId>
-    <artifactId>hello-world-jms-openshift-parent</artifactId>
+    <artifactId>hello-world-jms-kubernetes-parent</artifactId>
     <version>1.0.0-SNAPSHOT</version>
   </parent>
 
-  <artifactId>hello-world-jms-openshift-receiver</artifactId>
+  <artifactId>hello-world-jms-kubernetes-receiver</artifactId>
   <packaging>jar</packaging>
 
   <build>

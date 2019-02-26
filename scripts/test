@@ -13,10 +13,10 @@ try:
     call("mvn clean package")
 
     with working_env(HTTP_HOST="localhost", HTTP_PORT="8081"):
-        sender = start_process("java -jar sender/target/hello-world-jms-openshift-sender-1.0.0-SNAPSHOT-jar-with-dependencies.jar")
+        sender = start_process("java -jar sender/target/hello-world-jms-kubernetes-sender-1.0.0-SNAPSHOT-jar-with-dependencies.jar")
 
     with working_env(HTTP_HOST="localhost", HTTP_PORT="8082"):
-        receiver = start_process("java -jar receiver/target/hello-world-jms-openshift-receiver-1.0.0-SNAPSHOT-jar-with-dependencies.jar")
+        receiver = start_process("java -jar receiver/target/hello-world-jms-kubernetes-receiver-1.0.0-SNAPSHOT-jar-with-dependencies.jar")
 
     sleep(1)
 

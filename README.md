@@ -1,10 +1,10 @@
-# Getting started with Artemis on OpenShift
+# Getting started with JMS and ActiveMQ on Kubernetes
 
-This guide shows you how to send and receive messages using
-[Apache Qpid JMS](http://qpid.apache.org/components/jms/index.html)
-and [ActiveMQ Artemis](https://activemq.apache.org/artemis/index.html)
-on [OpenShift](https://www.openshift.com/).  It uses the
-[AMQP 1.0](http://www.amqp.org/) message protocol to send and receive
+This guide shows you how to send and receive messages using [Apache
+Qpid JMS](http://qpid.apache.org/components/jms/index.html) and
+[ActiveMQ Artemis](https://activemq.apache.org/artemis/index.html) on
+[Kubernetes](https://kubernetes.io/).  It uses the [AMQP
+1.0](http://www.amqp.org/) message protocol to send and receive
 messages.
 
 ## Overview
@@ -21,16 +21,16 @@ The example application has three parts:
   that causes it to consume an AMQP message from `example/strings` and
   convert it to an HTTP response.
 
-The sender and the receiver use the JMS API to perform their messaging
-tasks.
+The sender and the receiver use the Qpid JMS API to perform messaging
+operations.
 
 ## Prerequisites
 
-* You must have access to an OpenShift instance and be logged in.
-  [Minishift](https://docs.okd.io/latest/minishift/getting-started/index.html)
-  provides a way to run OpenShift in your local environment.
+* You must have access to a Kubernetes instance and be logged in.
+  [Minikube](https://kubernetes.io/docs/setup/minikube/)
+  provides a way to run Kubernetes in your local environment.
 
-## Deploying the services on OpenShift
+## Deploying the services on Kubernetes
 
 1. Use the `oc new-project` command to create a new namespace for the
    example services.
@@ -40,12 +40,12 @@ tasks.
 1. If you haven't already, use `git` to clone the example code to your
    local environment.
 
-        git clone https://github.com/amq-io/hello-world-jms-openshift
+        git clone https://github.com/amq-io/hello-world-jms-kubernetes
 
 1. Change directory to the example project.  The subsequent commands
    assume it is your current directory.
 
-        cd hello-world-jms-openshift/
+        cd hello-world-jms-kubernetes/
 
 1. Use the `oc apply` command to load the project templates.
 
@@ -89,7 +89,7 @@ the overview.
 To send a message, use the `curl` command.  The value you supply for
 the `string` field is used as the message payload.
 
-    curl -X POST --data "string=hello" http://<sender-host>/api/send
+    curl -X POST -d hello -H "Content-type: tex/plain" http://<sender-host>/api/send
 
 If things go as planned, it will return `OK`.  If things go awry, add
 the `-v` flag to see more about what's happening.
@@ -103,9 +103,9 @@ Upon success, you should see the message you sent echoed back in the
 response.  Here's some sample output from a few operations:
 
 ```console
-$ curl -X POST --data "string=hello 1" http://sender-t2.6923.rh-us-east-1.openshiftapps.com/api/send
+$ curl -X POST -d "hello 1" -H "Content-type: tex/plain" http://<sender-service>/api/send
 OK
-$ curl -X POST --data "string=hello 2" http://sender-t2.6923.rh-us-east-1.openshiftapps.com/api/send
+$ curl -X POST -d "hello 2" -H "Content-type: tex/plain" http://sender-t2.6923.rh-us-east-1.openshiftapps.com/api/send
 OK
 $ curl -X POST http://receiver-t2.6923.rh-us-east-1.openshiftapps.com/api/receive
 hello 1
@@ -251,4 +251,4 @@ _From [ReceiverMessagingThread.java](https://github.com/amq-io/hello-world-jms-o
 * [Apache ActiveMQ Artemis](https://activemq.apache.org/artemis/index.html)
 * [Apache Qpid JMS](http://qpid.apache.org/components/jms/index.html)
 * [JMS API reference](https://docs.oracle.com/javaee/7/api/index.html?javax/jms/package-summary.html)
-* [OpenShift](https://www.openshift.com/)
+* [Kubernetes](https://kubernetes.io/)
