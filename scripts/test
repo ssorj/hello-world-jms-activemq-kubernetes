@@ -18,15 +18,24 @@ try:
     with working_env(HTTP_HOST="localhost", HTTP_PORT="8082"):
         receiver = start_process("java -jar receiver/target/hello-world-jms-kubernetes-receiver-1.0.0-SNAPSHOT-jar-with-dependencies.jar")
 
-    sleep(1)
+    while True:
+        try:
+            http_get("http://localhost:8081/api/ready")
+            http_get("http://localhost:8082/api/ready")
 
-    call("curl -X POST -d \"hello 1\" -H \"Content-type: text/plain\" http://localhost:8081/api/send", quiet=True)
-    call("curl -X POST -d \"hello 2\" -H \"Content-type: text/plain\" http://localhost:8081/api/send", quiet=True)
-    call("curl -X POST http://localhost:8082/api/receive", quiet=True)
-    call("curl -X POST http://localhost:8082/api/receive", quiet=True)
-    call("curl -X POST http://localhost:8082/api/receive", quiet=True)
-    call("curl http://localhost:8081/api/health", quiet=True)
-    call("curl http://localhost:8082/api/health", quiet=True)
+            break
+        except CalledProcessError:
+            sleep(0.2)
+
+    call("curl -X POST -d \"hello 1\" -H \"Content-type: text/plain\" http://localhost:8081/api/send")
+    call("curl -X POST -d \"hello 2\" -H \"Content-type: text/plain\" http://localhost:8081/api/send")
+    call("curl -X POST -d \"hello 3\" -H \"Content-type: text/plain\" http://localhost:8081/api/send")
+    call("curl -X POST http://localhost:8082/api/receive")
+    print()
+    call("curl -X POST http://localhost:8082/api/receive")
+    print()
+    call("curl -X POST http://localhost:8082/api/receive")
+    print()
 finally:
     terminate_process(sender)
     terminate_process(receiver)
