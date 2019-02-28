@@ -106,7 +106,11 @@ public class Receiver {
     public String receive() {
         log.info("RECEIVER: Receive endpoint invoked");
 
-        return strings.poll();
+        String string = strings.poll();
+
+        if (string != null) string = string + "\n";
+
+        return string;
     }
 
     @GET

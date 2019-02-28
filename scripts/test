@@ -31,11 +31,8 @@ try:
     call("curl -X POST -d \"hello 2\" -H \"Content-type: text/plain\" http://localhost:8081/api/send")
     call("curl -X POST -d \"hello 3\" -H \"Content-type: text/plain\" http://localhost:8081/api/send")
     call("curl -X POST http://localhost:8082/api/receive")
-    print()
     call("curl -X POST http://localhost:8082/api/receive")
-    print()
     call("curl -X POST http://localhost:8082/api/receive")
-    print()
 finally:
     terminate_process(sender)
     terminate_process(receiver)
