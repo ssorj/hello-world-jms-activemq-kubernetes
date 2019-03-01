@@ -10,8 +10,6 @@ sender = None
 receiver = None
 
 try:
-    call("mvn clean package")
-
     with working_env(HTTP_HOST="localhost", HTTP_PORT="8081"):
         sender = start_process("java -jar sender/target/hello-world-jms-kubernetes-sender-1.0.0-SNAPSHOT-jar-with-dependencies.jar")
 
