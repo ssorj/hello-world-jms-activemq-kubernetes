@@ -10,7 +10,7 @@ import javax.jms.JMSContext;
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
-import javax.jms.Queue;
+import javax.jms.Topic;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.ws.rs.GET;
@@ -75,8 +75,8 @@ public class Receiver {
 
     public Receiver() {
         synchronized (jmsContext) {
-            Queue queue = jmsContext.createQueue("example/strings");
-            JMSConsumer consumer = jmsContext.createConsumer(queue);
+            Topic topic = jmsContext.createTopic("example/strings");
+            JMSConsumer consumer = jmsContext.createConsumer(topic);
 
             consumer.setMessageListener(new ReceiveListener());
         }
