@@ -1,7 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: messaging-service
-data:
-  MESSAGING_SERVICE_HOST: broker-amq-amqp
-  MESSAGING_SERVICE_PORT: "5672"
