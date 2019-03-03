@@ -78,25 +78,20 @@ public class Receiver {
             Topic topic = jmsContext.createTopic("example/strings");
             JMSConsumer consumer = jmsContext.createConsumer(topic);
 
-            consumer.setMessageListener(new ReceiveListener());
-        }
-    }
+            consumer.setMessageListener((message) -> {
+                    String string;
 
-    class ReceiveListener implements MessageListener {
-        @Override
-        public void onMessage(Message message) {
-            String string;
+                    try {
+                        string = message.getBody(String.class);
+                    } catch (JMSException e) {
+                        log.error("Message access error", e);
+                        return;
+                    }
 
-            try {
-                string = message.getBody(String.class);
-            } catch (JMSException e) {
-                log.error("Message access error", e);
-                return;
-            }
+                    log.info("RECEIVER: Received message '{}'", string);
 
-            log.info("RECEIVER: Received message '{}'", string);
-
-            strings.add(string);
+                    strings.add(string);
+                });
         }
     }
 
@@ -117,7 +112,7 @@ public class Receiver {
     @Path("/ready")
     @Produces("text/plain")
     public String ready() {
-        log.info("RECEIVER: Readiness checked");
+        log.info("RECEIVER: I am ready!");
 
         return "OK\n";
     }

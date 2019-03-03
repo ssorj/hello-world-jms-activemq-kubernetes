@@ -82,7 +82,23 @@ public class Sender {
             Topic topic = jmsContext.createTopic("example/strings");
             JMSProducer producer = jmsContext.createProducer();
 
-            producer.setAsync(new SendListener()).send(topic, string);
+            producer.setAsync(new CompletionListener() {
+                    @Override
+                    public void onCompletion(Message message) {
+                        try {
+                            log.info("SENDER: Receiver acknowledged '{}'", message.getBody(String.class));
+                        } catch (JMSException e) {
+                            log.error("Message access error", e);
+                        }
+                    }
+
+                    @Override
+                    public void onException(Message message, Exception e) {
+                        log.info("SENDER: Send failed: {}", e.toString());
+                    }
+                });
+
+            producer.send(topic, string);
         }
 
         log.info("SENDER: Sent message '{}'", string);
@@ -90,27 +106,11 @@ public class Sender {
         return "OK\n";
     }
 
-    class SendListener implements CompletionListener {
-        @Override
-        public void onCompletion(Message message) {
-            try {
-                log.info("SENDER: Receiver acknowledged '{}'", message.getBody(String.class));
-            } catch (JMSException e) {
-                log.error("Message access error", e);
-            }
-        }
-
-        @Override
-        public void onException(Message message, Exception e) {
-            log.info("SENDER: Send failed: {}", e.toString());
-        }
-    }
-
     @GET
     @Path("/ready")
     @Produces("text/plain")
     public String ready() {
-        log.info("SENDER: Readiness checked");
+        log.info("SENDER: I am ready!");
 
         return "OK\n";
     }
