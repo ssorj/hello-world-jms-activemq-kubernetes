@@ -23,3 +23,7 @@ The example application has three parts:
 
 The sender and the receiver use the Qpid JMS API to perform messaging
 operations.
+
+## Links
+
+[Presentation](https://docs.google.com/presentation/d/1kOsWwLcJWZGoCF8O_NPUB0jkAre9LMhE2VETnafxcMw/edit?usp=sharing)
