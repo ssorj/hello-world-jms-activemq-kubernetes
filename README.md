@@ -23,7 +23,7 @@ The example application has three parts:
   called `example/strings` on the broker.
 
 * A receiver service that consumes AMQP messages from
-  `example/strongs`.  It exposes another HTTP endpoint that returns
+  `example/strings`.  It exposes another HTTP endpoint that returns
   the messages as HTTP responses.
 
 The sender and the receiver use the Qpid JMS API to perform messaging
