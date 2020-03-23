@@ -19,7 +19,7 @@
 
 FROM registry.fedoraproject.org/fedora-minimal
 
-RUN microdnf --nodocs install java-1.8.0-openjdk && microdnf clean all
+RUN microdnf install java-1.8.0-openjdk && microdnf clean all
 
 COPY target/*-jar-with-dependencies.jar /app/app.jar
 ENV HOME=/app
